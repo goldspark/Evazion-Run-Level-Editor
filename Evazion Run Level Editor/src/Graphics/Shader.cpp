@@ -1,24 +1,5 @@
 #include "Shader.h"
-
-
-
-static const char defaultVertexShader[] =
-"#version 400 core\n"
-"layout(location=0)in vec3 vPosition;\n"
-"void main()\n"
-"{\n"
-" gl_Position = vec4(vPosition, 1.0);\n"
-"}\n";
-
-static const char defaultFragmentShader[] =
-"#version 400 core\n"
-"out vec4 color;\n"
-"void main(){"
-"color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-"}\n";
-
-
-
+#include <string>
 
 
 
@@ -33,9 +14,9 @@ namespace GoldSpark {
         programID = createProgram(defaultVertexShader, defaultFragmentShader);
 	}
 
-	Shader::Shader(const char* v, const char* f)
+	Shader::Shader(const std::string& v,const std::string& f)
 	{
-        programID = createProgram(v, f);
+        programID = createProgram(v.c_str(), f.c_str());
 	}
 
 	Shader::~Shader()
@@ -65,6 +46,10 @@ namespace GoldSpark {
         if (shader) {
             glShaderSource(shader, 1, &shaderSource, nullptr);
             glCompileShader(shader);
+
+
+            
+           
 
             GLint compiled = 0;
             glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);

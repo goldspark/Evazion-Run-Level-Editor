@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,12 +145,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Sprite.cpp" />
     <ClCompile Include="src\display\Display.cpp" />
+    <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
+    <ClCompile Include="src\Graphics\Texture2D.cpp" />
     <ClCompile Include="src\Graphics\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Objects\GameObject.cpp" />
+    <ClCompile Include="src\Scenes\EditorScene.cpp" />
+    <ClCompile Include="src\Scenes\Scene.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="src\Utils\FileCreator.cpp" />
     <ClCompile Include="src\Utils\GoldMath.cpp" />
@@ -164,11 +170,18 @@
     <ClCompile Include="vendor\IMGUI\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\Sprite.h" />
     <ClInclude Include="src\display\Display.h" />
+    <ClInclude Include="src\Graphics\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
+    <ClInclude Include="src\Graphics\Texture2D.h" />
     <ClInclude Include="src\Graphics\VertexArray.h" />
     <ClInclude Include="src\Graphics\VertexBuffer.h" />
+    <ClInclude Include="src\Objects\GameObject.h" />
+    <ClInclude Include="src\Scenes\EditorScene.h" />
+    <ClInclude Include="src\Scenes\Scene.h" />
     <ClInclude Include="src\UI\UI.h" />
     <ClInclude Include="src\Utils\FileCreator.h" />
     <ClInclude Include="src\Utils\GoldMath.h" />

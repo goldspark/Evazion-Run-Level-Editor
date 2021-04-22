@@ -90,7 +90,8 @@ void GoldSpark::Math::Vec3f::Normalize()
 
 Vec3f& GoldSpark::Math::Vec3f::Cross(const Vec3f& other)
 {
-	// TODO: insert return statement here
+	Vec3f vec3(1.0f, 1.0f, 1.0f);
+	return vec3;
 }
 
 

@@ -1,11 +1,13 @@
 #include "Display.h"
 
-#include "../Utils/GoldMath.h"
-#include "../Graphics/VertexBuffer.h"
-#include "../Graphics/Shader.h"
-#include "../Utils/FileCreator.h"
 
+#include "../Utils/FileCreator.h"
+#include "../Graphics/Renderer2D.h"
 #include <cstdlib>
+
+
+
+
 
 /*Controls*/
 
@@ -35,7 +37,7 @@ namespace GoldSpark {
 
 
     Display Display::s_Display;
-
+	Renderer2D *renderer;
     
 
 
@@ -80,18 +82,12 @@ namespace GoldSpark {
         GoldSpark::InitUI(window);
 
 
-
-		Math::Vec2f first(1.0f, 2.0f);
-		Math::Vec2f second(1.0f, 1.0f);
-
-		std::cout << first << std::endl;
-		std::cout << second << std::endl;
-
-		first.Normalize();
+	
 		
-		std::cout << first << std::endl;
-
-
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 	}
 		
 
@@ -109,20 +105,15 @@ namespace GoldSpark {
 						       0.0f, 0.5f, 0.0f,
 						      -0.5f, 0.0f, 0.0f };
 
-	Shader* defaultShader;
+
 
 	void Display::run() {
 
-		defaultShader = new Shader();
+	
+		scene = new EditorScene();
+		scene->start();
 
-		VertexArray* vao = new VertexArray();
-		vao->Bind();
-		VertexBuffer* vbo = new VertexBuffer(sizeof(vertices));
-		vbo->SetData(vertices, sizeof(vertices));
-		vao->Unbind();
-
-		
-		
+		float dt = 0.0f;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -131,16 +122,15 @@ namespace GoldSpark {
             
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			defaultShader->Enable();
-			vao->Bind();
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-			defaultShader->Disable();
 
             BegindRenderingUI();
             UIColorChanger();
             EndRenderingUI(window);
             
+			scene->update(dt);
+			
            
+
             glfwSwapBuffers(window);    
             glfwPollEvents();
 
@@ -160,13 +150,9 @@ namespace GoldSpark {
 
 		char s[80];
 		sprintf_s(s, "%f, %f, %f, %f", v.x, v.y, v.z, v.w);
-		
-
 		createFile("info.txt", s);
 
-		delete defaultShader;
-        delete vao;
-        delete vbo;
+		delete scene;
         glfwTerminate();
        
 	}

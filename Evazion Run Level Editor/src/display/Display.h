@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include "../UI/UI.h"
+#include "../Scenes/EditorScene.h"
+
 
 
 #define WIDTH  640
@@ -31,6 +33,7 @@ namespace GoldSpark {
 	private:
 		GLFWwindow* window;
 		static Display s_Display;
+		Scene* scene;
 	};
 
 

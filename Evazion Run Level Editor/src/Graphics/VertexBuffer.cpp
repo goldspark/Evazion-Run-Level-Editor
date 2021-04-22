@@ -13,8 +13,7 @@ namespace GoldSpark {
 		glCreateBuffers(1, &vboID);
 		glBindBuffer(GL_ARRAY_BUFFER, vboID);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+
 	}
 
 	VertexBuffer::~VertexBuffer()
