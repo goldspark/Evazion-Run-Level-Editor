@@ -215,24 +215,3 @@ namespace GoldSpark {
 	}
 
 }
-
-
-
-/*
-Uzmemo prvo slovo i vidimo koje je
- Ako je prvo slovo trazene rijeci onda pocni loop koji ima duzinu druge rijeci
-   Provjeri drugo slovo currentTexta sa drugim slovom word itd
-    Ako se loop zavrsi do kraja onda bool found = true;
-  
-  
-  
-  
-*/
-
-
-/*
-    Uzmi prvi red tekst
-	 Prodji kroz red teksta dok ne nadjes rijec 'Position('
-	  Cim dodjes do kraja '(' uzmi svaki broj u poseban string
-	  
-*/
