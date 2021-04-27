@@ -65,7 +65,7 @@ void GoldSpark::EditorScene::SaveScene()
 	std::string savedData = "\n";
 	int id = 0;
 	for (GameObject* go : GetGameObjects()) {
-		savedData.append("Game object " +std::to_string(id) + ": " + "Position("+ std::to_string(go->position.x) +", " + std::to_string(go->position.y) + ")" + " Texture(" + go->texture->GetPath() + ")\n");
+		savedData.append("Game object " +std::to_string(id) + ": " + "Position("+ std::to_string(go->position.x) +", " + std::to_string(go->position.y) + ")" + "Size(" + std::to_string(go->size.x) + ", " + std::to_string(go->size.y) + ")"+"Texture(" + go->texture->GetPath() + ")!\n");
 		id++;
 	}
 

@@ -221,6 +221,8 @@ namespace GoldSpark {
 		scene = new EditorScene();
 		scene->start();
 
+		LoadScene("info.emap", *scene);
+
 		float dt = 0.0f;
 		Vec2f ndcMousePos(0.0f, 0.0f);
 
@@ -229,6 +231,7 @@ namespace GoldSpark {
 		Vec2f debugQuadSize = { 0.2f, 0.2f };
 
 		
+		ReadFile("info.emap");
 
 		//Texture2D* test = new Texture2D("assets/building_house_night.png");
 
