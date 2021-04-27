@@ -2,13 +2,12 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <glfw3.h>
-#include "../UI/UI.h"
 #include "../Scenes/EditorScene.h"
+#include "State.h"
 
 
 
-#define WIDTH  640
-#define HEIGHT  480
+
 
 namespace GoldSpark {
 
@@ -29,6 +28,7 @@ namespace GoldSpark {
 			glfwTerminate();
 		}
 
+		void DeleteObject();
 
 	private:
 		GLFWwindow* window;

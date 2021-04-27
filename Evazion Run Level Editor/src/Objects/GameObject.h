@@ -17,9 +17,10 @@ namespace GoldSpark {
 	class GameObject {
 	private:
 		std::list<Component*> components;
+		int id;
 	public:
-		GameObject(const Vec2f& position, const Vec2f& size);
-		GameObject(const Vec2f& position, const Vec2f& size, const Texture2D& texture);
+		GameObject(int& id, const Vec2f& position, const Vec2f& size);
+		GameObject(int& id, const Vec2f& position, const Vec2f& size, const Texture2D& texture);
 		~GameObject();
 
 		void AddComponent(Component& c);
@@ -27,6 +28,9 @@ namespace GoldSpark {
 		void start();
 		void update(float dt);
 		void Free();
+
+		void SetID(int id) { this->id = id; }
+		int& GetID()  { return id; }
 
 	public:
 		Vec2f position;

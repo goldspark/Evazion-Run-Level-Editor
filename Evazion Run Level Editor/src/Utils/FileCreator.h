@@ -9,7 +9,4 @@ namespace GoldSpark {
 
 	void createFile(const char* name, const char* info);
 
-
-
-
 }

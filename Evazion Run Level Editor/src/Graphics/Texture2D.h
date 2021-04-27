@@ -3,6 +3,7 @@
 
 #include "glad/glad.h"
 #include <iostream>
+#include <string>
 
 
 
@@ -16,6 +17,7 @@ namespace GoldSpark {
 		int width, height, channels;
 		GLuint textureID;
 		unsigned char* pixels;
+		std::string path;
 	private:
 		void CreateImage(const char* path);
 
@@ -28,6 +30,10 @@ namespace GoldSpark {
 		void Bind();
 		void Unbind();
 		void Free();
+
+		inline const std::string& GetPath() {
+			return path; 
+		}
 
 		inline GLuint& getTexture() { return textureID; }
 	};

@@ -49,10 +49,11 @@ namespace GoldSpark {
 		void Free();
 	
 		void DrawQuad(const Vec2f& position, const Vec2f& size, const GLuint& texture);
+		void ResetTextures();
 	
 	};
 
 
-
+	
 
 }

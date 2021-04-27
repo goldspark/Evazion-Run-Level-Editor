@@ -59,10 +59,6 @@ VertexData* bufferDataPtr = nullptr;
 
 
 
-
-
-
-
 GoldSpark::Renderer2D::Renderer2D()
 {
 
@@ -146,6 +142,7 @@ void GoldSpark::Renderer2D::End()
 	GLsizeiptr size = (uint8_t*)bufferDataPtr - (uint8_t*)bufferData;
 	m_Vbo->SetData(bufferData, size);
 	
+	Render();
 	
 }
 
@@ -165,8 +162,7 @@ void GoldSpark::Renderer2D::Render()
 
 	
 	numberOfIndices = 0;
-
-
+	texturesIndex = 1;
 	
 
 }
@@ -180,6 +176,8 @@ void GoldSpark::Renderer2D::Free()
 	delete[] bufferData;
 	sprites.clear();
 }
+
+
 
 void GoldSpark::Renderer2D::DrawQuad(const Vec2f& position, const Vec2f& size, const GLuint& texture)
 {
@@ -200,7 +198,7 @@ void GoldSpark::Renderer2D::DrawQuad(const Vec2f& position, const Vec2f& size, c
 
 	if (currentIndex == 0) {
 		currentIndex = texturesIndex;
-		textures[texturesIndex] = texture;
+		textures[currentIndex] = texture;
 		texturesIndex++;
 	}
 
@@ -227,5 +225,15 @@ void GoldSpark::Renderer2D::DrawQuad(const Vec2f& position, const Vec2f& size, c
 	numberOfIndices += 6;
 
 	
+	
 }
 
+
+void GoldSpark::Renderer2D::ResetTextures()
+{
+
+	for (int i = 0; i < MAX_TEXTURES; i++) {
+		textures[i] = 0;
+	}
+
+}

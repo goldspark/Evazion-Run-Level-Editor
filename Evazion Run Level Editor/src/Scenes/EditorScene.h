@@ -10,16 +10,18 @@ namespace GoldSpark {
 
 	public:
 		EditorScene();
-		
+		~EditorScene() override;
 
 		void start() override;
-		void update(float dt) override;
+		void update(float dt, const Vec2f& mouseCoord) override;
 		void Free() override;
+
+		void SaveScene();
 	};
 
 
 
-
+	
 
 
 

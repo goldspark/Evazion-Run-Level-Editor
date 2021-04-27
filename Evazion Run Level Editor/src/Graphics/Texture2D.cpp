@@ -10,12 +10,15 @@ namespace GoldSpark {
 
 	Texture2D::Texture2D(const char* image_path)
 	{
+		this->path = image_path;
+
 		glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
 		CreateImage(image_path);
 	}
 
 	Texture2D::~Texture2D()
 	{
+		
 		Free();
 	}
 
