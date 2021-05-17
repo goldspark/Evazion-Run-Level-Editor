@@ -4,6 +4,7 @@
 using namespace GoldSpark;
 
 
+
 int main(int argc, char* argv[])
 {
 	Display::Get().run();

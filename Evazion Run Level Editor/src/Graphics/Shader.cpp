@@ -39,6 +39,15 @@ namespace GoldSpark {
         glDeleteProgram(programID);
 	}
 
+    void Shader::UploadMat4f(float* m4)
+    {
+        glUseProgram(programID);
+        int loc = glGetUniformLocation(programID, "mvp");
+        glUniformMatrix4fv(loc, 1, false, m4);
+     
+
+    }
+
 
 
 	GLuint Shader::loadShader(GLenum shaderType, const char* shaderSource) {

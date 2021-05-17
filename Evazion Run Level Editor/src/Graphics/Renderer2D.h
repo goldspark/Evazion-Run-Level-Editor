@@ -4,8 +4,6 @@
 #include "../Utils/GoldMath.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Graphics/Shader.h"
-#include "../Components/Sprite.h"
-
 #include <list>
 
 /*
@@ -36,9 +34,15 @@ namespace GoldSpark {
 		VertexBuffer *m_Vbo;
 		IndexBuffer *m_Ibo;
 		Shader* m_Program;
-		std::list<Sprite*> sprites;
+		struct VertexData {
+			Vec2f position;
+			Vec2f textureCoord;
+			float texIndex;
+		};
+		
 
 	public:
+		
 
 		Renderer2D();
 		~Renderer2D();
@@ -50,6 +54,10 @@ namespace GoldSpark {
 	
 		void DrawQuad(const Vec2f& position, const Vec2f& size, const GLuint& texture);
 		void ResetTextures();
+
+	public:
+		VertexData* bufferData = nullptr;
+		VertexData* bufferDataPtr = nullptr;
 	
 	};
 

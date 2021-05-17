@@ -8,9 +8,10 @@
 static const char defaultVertexShader[] =
 "#version 400 core\n"
 "layout(location=0)in vec2 vPosition;\n"
+"uniform mat4 mvp;\n"
 "void main()\n"
 "{\n"
-" gl_Position = vec4(vPosition, 0.0, 1.0);\n"
+" gl_Position = mvp * vec4(vPosition, 0.0, 1.0);\n"
 "}\n";
 
 static const char defaultFragmentShader[] =
@@ -39,6 +40,8 @@ namespace GoldSpark {
 		void Enable();
 		void Disable();
 		void Free();
+
+		void UploadMat4f(float* m4);
 
 		inline GLuint& GetID() { return programID; }
 	private:

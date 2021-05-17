@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +138,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -167,7 +169,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -185,7 +187,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -205,7 +207,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\glm;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLFW\GLFW;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\GLAD;C:\Users\infer\source\repos\Evazion Run Level Editor\Evazion Run Level Editor\vendor\STB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -219,11 +221,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\AABB.cpp" />
-    <ClCompile Include="src\Components\Sprite.cpp" />
+    <ClCompile Include="src\Components\Collider2D.cpp" />
+    <ClCompile Include="src\Components\FailComponent.cpp" />
     <ClCompile Include="src\display\Display.cpp" />
     <ClCompile Include="src\display\State.cpp" />
+    <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="src\Graphics\DebugDraw.cpp" />
     <ClCompile Include="src\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\ParticleSystem.cpp" />
     <ClCompile Include="src\Graphics\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
     <ClCompile Include="src\Graphics\Texture2D.cpp" />
@@ -237,6 +242,7 @@
     <ClCompile Include="src\Utils\FileCreator.cpp" />
     <ClCompile Include="src\Utils\FileReader.cpp" />
     <ClCompile Include="src\Utils\GoldMath.cpp" />
+    <ClCompile Include="src\Utils\Random.cpp" />
     <ClCompile Include="vendor\GLAD\glad.c" />
     <ClCompile Include="vendor\IMGUI\imgui.cpp" />
     <ClCompile Include="vendor\IMGUI\imgui_demo.cpp" />
@@ -248,12 +254,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collisions\AABB.h" />
+    <ClInclude Include="src\Components\Collider2D.h" />
     <ClInclude Include="src\Components\Component.h" />
-    <ClInclude Include="src\Components\Sprite.h" />
+    <ClInclude Include="src\Components\FailComponent.h" />
     <ClInclude Include="src\display\Display.h" />
     <ClInclude Include="src\display\State.h" />
+    <ClInclude Include="src\Graphics\Camera.h" />
     <ClInclude Include="src\Graphics\DebugDraw.h" />
     <ClInclude Include="src\Graphics\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\ParticleSystem.h" />
     <ClInclude Include="src\Graphics\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\Graphics\Texture2D.h" />
@@ -266,6 +275,7 @@
     <ClInclude Include="src\Utils\FileCreator.h" />
     <ClInclude Include="src\Utils\FileReader.h" />
     <ClInclude Include="src\Utils\GoldMath.h" />
+    <ClInclude Include="src\Utils\Random.h" />
     <ClInclude Include="vendor\IMGUI\imconfig.h" />
     <ClInclude Include="vendor\IMGUI\imgui.h" />
     <ClInclude Include="vendor\IMGUI\imgui_impl_glfw.h" />

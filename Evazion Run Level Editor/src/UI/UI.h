@@ -11,6 +11,7 @@ namespace GoldSpark {
 	void BegindRenderingUI();
 	void UIColorChanger();
 	void UIList(const char** itemList, size_t size, int& selection, const char** textureList, size_t sizeT, int& selectionT);
+	void UIEditorBox(ImVec2& size, bool& aspectSize, bool& collider);
 	void EndRenderingUI(GLFWwindow* window);
 	ImVec4& GetBGColor();
 }

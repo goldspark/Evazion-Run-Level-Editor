@@ -1,8 +1,9 @@
 #include "Display.h"
 #include "../Utils/FileCreator.h"
 #include "../Graphics/Renderer2D.h"
-#include "../Graphics/DebugDraw.h"
 #include "../UI/UI.h"
+#include "../Components/Collider2D.h"
+#include "../Graphics/DebugDraw.h"
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -19,17 +20,19 @@ using std::filesystem::directory_iterator;
 
 
 
+
+
+
 /*Controls*/
 
 
-struct MousePos {
+struct MousePressPos {
 	double xPos, yPos;
 };
-MousePos mousePos;
+MousePressPos mousePressPos;
 
 
-//Debug drawing
-GoldSpark::DebugDraw* debugQuad;
+
 
 //Display info
 static int WIDTH = 640;
@@ -40,21 +43,39 @@ const char** textureList;
 std::string* stextureList;
 int numOfTextures = 0;
 
+
+
+
 /*GLFW CALLBACKS*/
 //Callbacks
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	GoldState::mouseInfo->x = (xpos / (WIDTH / 2.0f)) - 1.0f;
-	GoldState::mouseInfo->y = -((ypos / (HEIGHT / 2.0f)) - 1.0f);
+	GoldState::mouseInfo->x = xpos * ((100.0f * GoldState::aspectRatio) / WIDTH);
+	GoldState::mouseInfo->y = 100.0f - (ypos * (100.0f / HEIGHT));
+
+	glm::vec4 tempM = glm::vec4{ GoldState::mouseInfo->x, GoldState::mouseInfo->y, 0.0f, 1.0f };
+
+	tempM = glm::translate(glm::mat4(1.0f), glm::vec3{ -1.0f * GoldState::moveCameraLeftRight, 0.0f, 0.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3{ 1.0f, 1.0f, 1.0f }) * tempM;
+
+	GoldState::mouseInfo->x = tempM.x;
+	GoldState::mouseInfo->y = tempM.y;
+	
+
 }
+
+
 
 
 void window_size_callback(GLFWwindow* window, int width, int height)
 {
 	WIDTH = width;
 	HEIGHT = height;
-	glViewport(0, 0, width, height);
+
+	
+	
+	GoldState::camera->RecalculateOrthoCamera(width, height);
+	
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -64,8 +85,37 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 	if (key == GLFW_KEY_LEFT_CONTROL && action == GLFW_PRESS) {
 		GoldState::move = true;
+		GoldState::moveCollider = false;
+	}
+	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
+		GoldState::moveCollider = true;
+		GoldState::move = false;
+	}
+	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+		GoldState::moveCameraLeftRight -= 5.0f;
+	}
+	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+		GoldState::moveCameraLeftRight += 5.0f;
+	}
+
+	if (key == GLFW_KEY_D && action == GLFW_REPEAT) {
+		GoldState::moveCameraLeftRight -= 5.0f;
+	}
+	if (key == GLFW_KEY_A && action == GLFW_REPEAT) {
+		GoldState::moveCameraLeftRight += 5.0f;
+	}
+
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		GoldState::move = false;
+		GoldState::moveCollider = false;
+		GoldState::selectedObject = nullptr;
 	}
 	
+
+	
+
+
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -79,8 +129,8 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 		//getting cursor position
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		mousePos.xPos = xpos;
-		mousePos.yPos = ypos;
+		mousePressPos.xPos = xpos;
+		mousePressPos.yPos = ypos;
 		
 
 	}
@@ -88,21 +138,21 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 		GoldState::deleted = false;
 		GoldState::pressed = false;
 		GoldState::move = false;
+		GoldState::moveCollider = false;
 		GoldState::selectedObject = nullptr;
 	}
 	else if (action == GLFW_RELEASE) {
 		GoldState::deleted = false;
-		mousePos.xPos = -1;
-		mousePos.yPos = -1;
+		mousePressPos.xPos = -1;
+		mousePressPos.yPos = -1;
 		GoldState::pressed = false;
 		GoldState::move = false;
+		GoldState::moveCollider = false;
 	}
 	
 }
 
-/*
-Imamo jedan sprite kad kliknemo na njega da bude kliknut i cim opet nedje kliknemo
-*/
+
 
 
 
@@ -130,6 +180,7 @@ namespace GoldSpark {
 
 		/* Create a windowed mode window and its OpenGL context */
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World", NULL, NULL);
+
 		if (!window)
 		{
 			glfwTerminate();
@@ -138,6 +189,8 @@ namespace GoldSpark {
 			std::cout << error << std::endl;
 			return;
 		}
+
+		GoldState::ptr_window = window;
 
 		/* Make the window's context current */
 		glfwMakeContextCurrent(window);
@@ -202,10 +255,11 @@ namespace GoldSpark {
 		}
 	}
 
+	
 	void Display::run() {
 
 		//List of items to add
-		const char* items[] = { "Add Colored Object", "Add Textured Object" };
+		const char* items[] = { "Add Colored Object(TODO)", "Add Textured Object" };
 		int selection = 0;
 
 
@@ -216,7 +270,7 @@ namespace GoldSpark {
 		////////////
 
 
-		debugQuad = new DebugDraw();
+	
 	
 		scene = new EditorScene();
 		scene->start();
@@ -226,102 +280,76 @@ namespace GoldSpark {
 		float dt = 0.0f;
 		Vec2f ndcMousePos(0.0f, 0.0f);
 
-		Vec2f debugQuadPos = { 0.0f, 0.0f };
-		Vec3f debugQuadColor = { 0.0f, 1.0f, 0.0f };
-		Vec2f debugQuadSize = { 0.2f, 0.2f };
-
+		GoldState::camera = new Camera(WIDTH, HEIGHT);
 		
 		ReadFile("info.emap");
 
-		//Texture2D* test = new Texture2D("assets/building_house_night.png");
-
-        /* Loop until the user closes the window */
-		//ID for added game objects
+		GoldState::debugDrawCollider = new DebugDraw();
 		int id = 0;
-		//Check if user should change size whatever he likes as
-		bool aspectSize = true;
         while (!glfwWindowShouldClose(window))
         {
 
             
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+			
+			
 
+			ndcMousePos.x = mousePressPos.xPos * ((100.0f * GoldState::aspectRatio) / WIDTH);
+			ndcMousePos.y = 100.0f - (mousePressPos.yPos * (100.0f / HEIGHT));
 
+			glm::vec4 tempM = glm::vec4{ ndcMousePos.x, ndcMousePos.y, 1.0f, 1.0f };
 
-			ndcMousePos.x = (mousePos.xPos / (WIDTH / 2.0f)) - 1.0f;
-			ndcMousePos.y = -((mousePos.yPos / (HEIGHT / 2.0f)) - 1.0f);
-			scene->update(dt, ndcMousePos);
+			tempM = glm::translate(glm::mat4(1.0f), glm::vec3{ -1.0f * GoldState::moveCameraLeftRight, 0.0f, 0.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3{ 1.0f, 1.0f, 1.0f }) * tempM;
+
+			ndcMousePos.x = tempM.x;
+			ndcMousePos.y = tempM.y;
 
             BegindRenderingUI();
-            UIColorChanger();
-			UIList(items, 2, selection, textureList, numOfTextures, textureSelection);
-			
-			if (GoldState::selectedObject != nullptr) {
-				ImVec2 size = { GoldState::sizeInfo->x, GoldState::sizeInfo->y };
-
-
-				
-
-		
-				ImGui::Begin("Attributes");
-				ImGui::SliderFloat2("SIZE", (float*)&size, 0.0f, 1.0f, "%.3f");
-				ImGui::Checkbox("Aspect Size", &aspectSize);
-				ImGui::End();
-
-				
-
-			
-				if (aspectSize) {
-					GoldState::sizeInfo->x = size[0];
-					GoldState::sizeInfo->y = GoldState::sizeInfo->x;
-				}
-				else {
-					GoldState::sizeInfo->x = size[0];
-					GoldState::sizeInfo->y = size[1];
-				}
-
-				
-				debugQuadPos.x = GoldState::selectedObject->position.x;
-				debugQuadPos.y = GoldState::selectedObject->position.y;
-
-
-				debugQuadSize.x = GoldState::selectedObject->size.x * 1.001f;
-				debugQuadSize.y = GoldState::selectedObject->size.y * 1.001f;
-
-			
-
-				debugQuad->DrawDebugQuad(debugQuadPos, debugQuadSize, debugQuadColor);
-
-
-			}
-			EndRenderingUI(window);
-			
-			if (GoldState::selectedObject != nullptr && GoldState::deleted)
-				DeleteObject();
-
+			scene->update(dt, ndcMousePos);
 			//Adding game objects
 			if (selection == 1) {
-				GameObject* gameObject = new GameObject(id, Vec2f(0.5f, -0.5f), Vec2f(0.2f, 0.2f), *new Texture2D(textureList[textureSelection]));
+				GameObject* gameObject = new GameObject(id, Vec2f(50.0f, 50.0f), Vec2f(20.0f, 20.0f), *new Texture2D(textureList[textureSelection]));
 				scene->addToScene(gameObject);
 				selection = 0;
 				id++;
 			}
+            UIColorChanger();
+			UIList(items, 2, selection, textureList, numOfTextures, textureSelection);
+			EndRenderingUI(window);
 
-            
+		
+			if (GoldState::selectedObject != nullptr) {
+				glLineWidth(2.0f);
+				GoldState::debugDraw->DrawDebugQuad(GoldState::selectedObject->position, GoldState::selectedObject->size, { 0.0f, 1.0f, 0.0f });
+				glLineWidth(1.0f);
+
+				Component* collider = GoldState::selectedObject->GetComponent("Collider");
+				if (collider != nullptr) {
+		
+
+					glLineWidth(2.0f);
+					GoldState::debugDrawCollider->DrawDebugQuad(((Collider2D*)collider)->position + GoldState::selectedObject->position, ((Collider2D*)collider)->size, { 1.0f, 0.0f, 0.0f });
+					glLineWidth(1.0f);
+				}
+			}
 			
+
+			
+			if (GoldState::selectedObject != nullptr && GoldState::deleted)
+				DeleteObject();
+
 			
 
 			
            
-
+			glfwPollEvents();
             glfwSwapBuffers(window);    
-            glfwWaitEvents();
+            
 
         }
 		
 
 		ImVec4 v = GetBGColor();
-		//Inputting everything to file
 		char s[80];
 		sprintf_s(s, "glClearColor(%f, %f, %f, %f)", v.x, v.y, v.z, v.w);
 		createFile("background.txt", s);
@@ -329,10 +357,13 @@ namespace GoldSpark {
 		
 		
 		GoldState::Free();
-		delete debugQuad;
+		delete GoldState::camera;
+		delete GoldState::debugDrawCollider;
+		delete scene;
 		delete [] textureList;
 		delete[] stextureList;
-		delete scene;
+
+	
         glfwTerminate();
        
 	}

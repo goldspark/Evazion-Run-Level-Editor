@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include "../Components/FailComponent.h"
 
 
 
@@ -43,8 +43,19 @@ void GoldSpark::GameObject::Free()
 {
 
 	for (Component* c : components)
-		c->Free();
+		delete c;
 
 	delete texture;
 	
+}
+
+GoldSpark::Component* GoldSpark::GameObject::GetComponent(const char* name)
+{
+	for (Component* c : components) {
+		if (strcmp(name, c->name)) {
+			return c;
+		}
+	}
+
+	return nullptr;
 }

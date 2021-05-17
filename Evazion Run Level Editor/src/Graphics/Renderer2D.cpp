@@ -1,5 +1,10 @@
+
 #include "Renderer2D.h"
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
 #include <iostream>
+#include "../display/State.h"
 
 
 
@@ -14,8 +19,10 @@ layout(location = 2)in float vIndex;
 out vec2 fTex;
 out float fIndex;
 
+uniform mat4 mvp;
+
 void main(){
-gl_Position = vec4(vPos, 0.0, 1.0);
+gl_Position = mvp * vec4(vPos, 0.0, 1.0);
 fTex = vTex;
 fIndex = vIndex;
 }
@@ -40,20 +47,14 @@ void main(){
 
 
 
-struct VertexData {
-	Vec2f position;
-	Vec2f textureCoord;
-	float texIndex;
-};
+
 
 
 GLuint whiteTexture;
 GLuint textures[32];
 int texturesIndex = 1;
 
-VertexData* bufferData = nullptr;
 int numberOfIndices = 0;
-VertexData* bufferDataPtr = nullptr;
 
 
 
@@ -82,7 +83,12 @@ GoldSpark::Renderer2D::Renderer2D()
 	}
 
 	m_Program = new Shader(texturedVertexShader, texturedFragmentShader);
+	glm::mat4 cameraOrthoMat = glm::mat4(1.0f);
+	cameraOrthoMat = glm::ortho(0.0f, 100.0f, 0.0f, 100.0f);
+	
 
+	//m_Program->UploadMat4f(glm::value_ptr(GoldState::camera->GetCameraMatrix()));
+	
 
 	m_Vao = new VertexArray();
 	m_Vao->Bind();
@@ -137,13 +143,14 @@ void GoldSpark::Renderer2D::Begin()
 	bufferDataPtr = bufferData;
 }
 
+
+
 void GoldSpark::Renderer2D::End()
 {
 	GLsizeiptr size = (uint8_t*)bufferDataPtr - (uint8_t*)bufferData;
 	m_Vbo->SetData(bufferData, size);
 	
 	Render();
-	
 }
 
 void GoldSpark::Renderer2D::Render()
@@ -156,6 +163,12 @@ void GoldSpark::Renderer2D::Render()
 	}
 
 	m_Program->Enable();
+	if (GoldState::camera != nullptr) {
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3{ GoldState::moveCameraLeftRight, 0.0f, 0.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3{1.0f, 1.0f, 1.0f});
+		glm::mat4 result = glm::mat4(1.0f);
+		result = GoldState::camera->GetCameraMatrix() * view;
+		m_Program->UploadMat4f(glm::value_ptr(result));
+	}
 	m_Vao->Bind();
 	glDrawElements(GL_TRIANGLES, numberOfIndices, GL_UNSIGNED_INT, nullptr);
 	m_Program->Disable();
@@ -167,6 +180,8 @@ void GoldSpark::Renderer2D::Render()
 
 }
 
+
+
 void GoldSpark::Renderer2D::Free()
 {
 	delete m_Vao;
@@ -174,14 +189,13 @@ void GoldSpark::Renderer2D::Free()
 	delete m_Ibo;
 	delete m_Program;
 	delete[] bufferData;
-	sprites.clear();
 }
 
 
 
 void GoldSpark::Renderer2D::DrawQuad(const Vec2f& position, const Vec2f& size, const GLuint& texture)
 {
-	if (texturesIndex > 31 || numberOfIndices) {
+	if (numberOfIndices > MAX_INDEX || texturesIndex > MAX_TEXTURES) {
 		End();
 		Render();
 		Begin();

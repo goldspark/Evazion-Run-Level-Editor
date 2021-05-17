@@ -34,7 +34,7 @@ void GoldSpark::Scene::start()
 	}
 }
 
-void GoldSpark::Scene::update(float dt, const Vec2f& mouseCoord)
+void GoldSpark::Scene::update(float dt,Vec2f& mouseCoord)
 {	
 	for (it = gameObjects.begin();it != gameObjects.end(); it++) {
 		(*it)->update(dt);
@@ -55,11 +55,12 @@ void GoldSpark::Scene::update(float dt, const Vec2f& mouseCoord)
 void GoldSpark::Scene::Free()
 {
 	
+	
 	for (GameObject* go : gameObjects)
 		delete go;
 	delete renderer2D;
 
-	gameObjects.clear();
+	//gameObjects.clear();
 }
 
 void GoldSpark::Scene::RemoveGameObject(int *id)

@@ -2,7 +2,7 @@
 
 
 //object1: mouse
-bool GoldSpark::CheckCollision(const Math::Vec2f& mousePos, const Math::Vec2f& objectSize, const Math::Vec2f& objectPos)
+bool GoldSpark::CheckCollision(Math::Vec2f& mousePos, const Math::Vec2f& objectSize, const Math::Vec2f& objectPos)
 {
 
 	return mousePos.x >= objectPos.x && mousePos.x <= objectPos.x + objectSize.x

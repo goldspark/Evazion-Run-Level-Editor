@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../Utils/GoldMath.h"
-#include "../Components/Sprite.h"
+#include "../Graphics/Texture2D.h"
+#include "../Components/Component.h"
 #include <list>
 
-class Texture2D;
+
 
 namespace GoldSpark {
 	using namespace Math;
@@ -28,6 +29,8 @@ namespace GoldSpark {
 		void start();
 		void update(float dt);
 		void Free();
+
+		Component* GetComponent(const char* name);
 
 		void SetID(int id) { this->id = id; }
 		int& GetID()  { return id; }

@@ -1,5 +1,8 @@
 #include "DebugDraw.h"
-
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
+#include "../display/State.h"
 
 
 static const char debugVertexShader[] =
@@ -7,9 +10,10 @@ static const char debugVertexShader[] =
 "layout(location=0)in vec2 vPosition;\n"
 "layout(location=1)in vec3 vColor;\n"
 "out vec3 fColor;\n"
+"uniform mat4 mvp;\n"
 "void main()\n"
 "{\n"
-" gl_Position = vec4(vPosition, 0.0, 1.0);\n"
+" gl_Position = mvp * vec4(vPosition, 0.0, 1.0);\n"
 " fColor = vColor;\n"
 "}\n";
 
@@ -20,9 +24,6 @@ static const char debugFragmentShader[] =
 "void main(){"
 "color = vec4(fColor, 1.0);\n"
 "}\n";
-
-
-
 
 
 
@@ -37,7 +38,17 @@ GoldSpark::DebugDraw::DebugDraw()
 	
 
 	shader = new Shader(debugVertexShader, debugFragmentShader);
+
+	glm::mat4 cameraOrthoMat = glm::mat4(1.0f);
+	cameraOrthoMat = glm::ortho(0.0f, 100.0f, 0.0f, 100.0f);
+
+	glUseProgram(shader->GetID());
+	if(GoldState::camera != nullptr)
+	shader->UploadMat4f(glm::value_ptr(GoldState::camera->GetCameraMatrix()));
+	
+
 	GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
+
 
 	vao = new VertexArray();
 	vao->Bind();
@@ -59,6 +70,7 @@ GoldSpark::DebugDraw::DebugDraw()
 
 GoldSpark::DebugDraw::~DebugDraw()
 {
+	
 	delete vao;
 	delete vbo;
 	delete ibo;
@@ -72,7 +84,7 @@ GoldSpark::DebugDraw::~DebugDraw()
 
 void GoldSpark::DebugDraw::DrawDebugQuad(const Math::Vec2f& pos, const Math::Vec2f& size, const Math::Vec3f& color)
 {
-
+	
 	
 
 	bufferData[0].position = {pos.x, pos.y};
@@ -86,21 +98,29 @@ void GoldSpark::DebugDraw::DrawDebugQuad(const Math::Vec2f& pos, const Math::Vec
 
 
 	
+	
 
 	vbo->SetData(bufferData, 5 * 4 * sizeof(float));
 	
 
 	shader->Enable();
-	vao->Bind();
+
 	
+		
 
 
+	vao->Bind();
+	if (GoldState::camera != nullptr) {
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3{ GoldState::moveCameraLeftRight, 0.0f, 0.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3{ 1.0f, 1.0f, 1.0f });
+		glm::mat4 result = glm::mat4(1.0f);
+		result = GoldState::camera->GetCameraMatrix() * view;
+		shader->UploadMat4f(glm::value_ptr(result));
+	}
 	
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	
 	glDrawElements(GL_LINE_STRIP, (GLsizei)(sizeof(indices) / sizeof(indices[0])), GL_UNSIGNED_INT, nullptr);
 
 	glDisableVertexAttribArray(0);
@@ -108,6 +128,7 @@ void GoldSpark::DebugDraw::DrawDebugQuad(const Math::Vec2f& pos, const Math::Vec
 	vao->Unbind();
 	shader->Disable();
 
+	
 
 }
 

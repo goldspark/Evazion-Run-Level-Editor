@@ -44,6 +44,7 @@ namespace GoldSpark {
 			inline Vec2f operator*(const Vec2f& other) { return Mult(other); }
 			inline Vec2f operator*(const float& s) { return Mult(s); }
 			inline Vec2f& operator=(const Vec2f& other) { this->x = other.x; this->y = other.y; return *this;}
+			inline bool operator==(const Vec2f& other) { return (x == other.x && y == other.y); }
 			
 		};
 
@@ -85,6 +86,7 @@ namespace GoldSpark {
 			inline Vec3f operator*(const Vec3f& other) { return Mult(other); }
 			inline Vec3f operator*(const float& s) { return Mult(s); }
 			inline Vec3f& operator=(const Vec3f& other) { this->x = other.x; this->y = other.y; this->z = other.z; return *this; }
+			inline bool operator==(const Vec3f& other) { return (x == other.x && y == other.y && z == other.z); }
 		};
 
 

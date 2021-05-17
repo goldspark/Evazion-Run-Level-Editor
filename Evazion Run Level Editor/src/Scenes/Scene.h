@@ -22,7 +22,7 @@ namespace GoldSpark {
 
 		void addToScene(GameObject* gameObject);
 		virtual void start();
-		virtual void update(float dt, const Vec2f& mouseCoord);
+		virtual void update(float dt, Vec2f& mouseCoord);
 		virtual void Free();
 
 		void RemoveGameObject(int* id);

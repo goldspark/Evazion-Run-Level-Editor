@@ -12,13 +12,16 @@
 
 namespace GoldSpark {
 
+	
 	struct VertexData {
 		GoldSpark::Math::Vec2f position;
 		GoldSpark::Math::Vec3f color;
 	};
+	
 
 	class DebugDraw {
-	private:
+	private:	
+		
 		VertexArray* vao;
 		VertexBuffer* vbo;
 		IndexBuffer* ibo;
@@ -28,6 +31,8 @@ namespace GoldSpark {
 		~DebugDraw();
 
 		void DrawDebugQuad(const Math::Vec2f& pos, const Math::Vec2f& size, const Math::Vec3f& color);
+
+		
 		
 	};
 }

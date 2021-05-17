@@ -62,7 +62,6 @@ namespace GoldSpark {
 	{
 		
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		std::cout << glGetError() << std::endl;
 	}
 
 	void Texture2D::Bind(int unitNumber)

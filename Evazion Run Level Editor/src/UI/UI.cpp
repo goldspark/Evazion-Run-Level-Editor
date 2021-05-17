@@ -1,12 +1,13 @@
 #include "UI.h"
-
+#include "../display/State.h"
+#include "../Components/Collider2D.h"
 
 
 
 namespace GoldSpark {
 
 	
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
 
 	void InitUI(GLFWwindow* window)
@@ -55,6 +56,20 @@ namespace GoldSpark {
 		ImGui::Begin("Attributes");
 		ImGui::ListBox("CREATE", &selection, itemList, size);
 		ImGui::ListBox("Textures", &selectionT, textureList, sizeT);
+		ImGui::End();
+	}
+
+	void UIEditorBox(ImVec2& size, bool& aspectSize, bool& collider)
+	{
+		ImGui::Begin("Attributes");
+		ImGui::SliderFloat2("SIZE", (float*)&size, 0.0f, 100.0f * GoldState::camera->GetAspectRatio(), "%.3f");
+		ImGui::Checkbox("Aspect Size", &aspectSize);
+		collider = ImGui::Button("Add Collider");
+		if (collider) {
+			Vec2f pos = { 0.0f, 0.0f };
+			GoldState::selectedObject->AddComponent(*new Collider2D(pos, GoldState::selectedObject->size));
+			collider = false;
+		}
 		ImGui::End();
 	}
 

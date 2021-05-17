@@ -1,4 +1,8 @@
 
-Game object 0: Position(-0.512500, 0.316667)Size(0.545000, 0.545000)Texture(assets/building_shop_day.png)!
-Game object 1: Position(0.046875, 0.329167)Size(0.200000, 0.200000)Texture(assets/building_house_day.png)!
+Game object 0: Position(-0.277778, -0.208331)Size(211.110992, 211.110992)Texture(assets/background_night.PNG)!
+Game object 1: Position(26.666668, 19.375002)Size(55.243999, 55.243999)Texture(assets/building_shop_night.png)!
+Collider:
+-1998397155538108416.000000
+-1998397155538108416.000000
+Game object 2: Position(149.473114, 27.106836)Size(18.275999, 14.953002)Texture(assets/building_house_night.png)!
 
